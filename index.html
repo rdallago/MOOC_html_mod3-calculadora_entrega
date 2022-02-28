@@ -7,11 +7,11 @@
       function vaciar () { 
 
       
-        document.getElementById("n1").value = "";
+        document.getElementById("pantalla").value = "";
       }
   const rellenar_info=()=>{
     let info = document.getElementById("info"); 
-    let res = document.getElementById("n1");
+    let res = document.getElementById("pantalla");
  
     if (res.value < 0){ 
         info.innerHTML = "Error! valor menor a 0";
@@ -36,7 +36,7 @@
 
   }
       function cuadrado() { 
-        let num = document.getElementById("n1");
+        let num = document.getElementById("pantalla");
         num.value = num.value * num.value;
         rellenar_info();
         
@@ -44,7 +44,7 @@
       }
 
   function mod(){
-      let valor=document.getElementById("n1");
+      let valor=document.getElementById("pantalla");
       
       
       if(valor.value<0){valor.value=valor.value*-1;
@@ -53,7 +53,7 @@
   }
 
 function fact(){
-    let result=document.getElementById("n1");
+    let result=document.getElementById("pantalla");
 
     
     for(let i = result.value-1; i>0; i--){
@@ -66,7 +66,7 @@ function fact(){
    let numero, acumula;
    let operacion;
   const inicializar = () => { // inicializa las variables globales
-    numero = document.getElementById("n1");
+    numero = document.getElementById("pantalla");
     acumula = numero.value;
     operacion="";
    
@@ -103,7 +103,7 @@ function fact(){
   }
 
   function sumatoria(){
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -125,7 +125,7 @@ function fact(){
   }
 
   const ordenar = () => { // función ordenar con un método de ordenación ascendente
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -143,7 +143,7 @@ function fact(){
     }
 }
 const revertir = () => { // función revertir
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -161,7 +161,7 @@ const revertir = () => { // función revertir
     }
 }
 const quitar = () => {
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -219,7 +219,7 @@ const quitar = () => {
   <body>
     <div id="caja">
         <h1>Calculadora web</h1>
-        <input type="text" id="n1" onclick="vaciar()">
+        <input type="text" id="pantalla" onclick="vaciar()">
         <h2 id="info" class="grande" title="Info sobre el número">Info sobre el número</h2>
         <h3 class="separador">Operaciones unitarias</h3>
         <button id="cuadrado" onclick="cuadrado()">x<sup>2</sup></button>
@@ -233,7 +233,7 @@ const quitar = () => {
         <button id="resto" onclick="resto()">%</button>
         <button id="potencia" onclick="pot()">x<sup>y</sup></button>
         <button id="igual" onclick="eq()">=</button>
-        <h3 class="separador">Operaciones en formato CSV (n1, n2, n3, n4...)</h3>
+        <h3 class="separador">Operaciones en formato CSV (pantalla, n2, n3, n4...)</h3>
         <button id="sumatorio" onclick="sumatoria()">Σx</button>
         <button id="ordenar" onclick="ordenar()">Ordenar</button>
         <button id="revertir" onclick="revertir()">Revertir</button>
