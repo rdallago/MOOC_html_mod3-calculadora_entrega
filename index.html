@@ -1,109 +1,164 @@
+<!DOCTYPE html>
+<html>
 
-<!DOCTYPE html><html><head>
-    <title>Calculadora: Ej. final módulo 3</title>
-    <meta charset="utf-8">
-    <script type="text/javascript">
-  
-      function vaciar () { 
+<head>
+  <title>Calculadora P2P módulo 3</title>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="js-mod3.js"></script>
 
-      
-        document.getElementById("n1").value = "";
-      }
-  const rellenar_info=()=>{
-    let info = document.getElementById("info"); 
-    let res = document.getElementById("n1");
- 
-    if (res.value < 0){ 
-        info.innerHTML = "Error! valor menor a 0";
-   
-   
-    } 
-    else if (res.value < 100) {
-        info.innerHTML = "Info: el resultado es menor que 100";  
-    } else if ((res.value >= 100) && (res.value <= 200)) { 
+  <script type="text/javascript">
+// ** Funciones generales ** //
+const vaciar = () => {
+    document.getElementById("pantalla").value = "";
+    document.getElementById("info").innerHTML = "Info sobre el número";
+}
+const rellenar_info = () => { // actualiza el h2 según el resultado de la operación
+    let info = document.getElementById("info"); // almacena h2 en info
+    let res = document.getElementById("pantalla"); // almacena input en res
+    if (res.value < 100) { // compara el valor de input; valores menores a 100
+        info.innerHTML = "Info: el resultado es menor que 100"; // cambia el texto de info 
+    } else if ((res.value >= 100) && (res.value <= 200)) { // compara valores entre 100 y 200
         info.innerHTML = "Info: el resultado está entre 100 y 200";
-   
-   
-    } 
-    
-    
-    
-    
-    else { 
+    } else { // para el resto de valores
         info.innerHTML = "Info: el resultado es superior a 200";
     }
-
-
-  }
-      function cuadrado() { 
-        let num = document.getElementById("n1");
-        num.value = num.value * num.value;
-        rellenar_info();
-        
-        
-      }
-
-  function mod(){
-      let valor=document.getElementById("n1");
-      
-      
-      if(valor.value<0){valor.value=valor.value*-1;
-        rellenar_info();}
-
-  }
-
-function fact(){
-    let result=document.getElementById("n1");
-
-    
-    for(let i = result.value-1; i>0; i--){
-    result.value*= i;
+}
+// ** Validar el  input para unitarias y binarias ** //
+let esNum;
+const validar = () => {
+    let num = document.getElementById("pantalla");
+    let info = document.getElementById("info");
+    if (isNaN(num.value) || num.value === "") {
+        info.innerHTML = "Introduce una cifra, por favor";
+        esNum = false;
+        document.getElementById("pantalla").value = "Error";
+    } else {
+        esNum = true;
     }
-   
-    rellenar_info();
-    
-  }
-   let numero, acumula;
-   let operacion;
-  const inicializar = () => { // inicializa las variables globales
-    numero = document.getElementById("n1");
-    acumula = numero.value;
-    operacion="";
-   
-  }
- 
-
-  function mul(){
-  //guarda en variables globales lo ingresado previo a borrar:
-
-   inicializar();
-   operacion="*";
-    
-  }
-
-  function suma(){
-      inicializar();
-      operacion="+"
-  }
-  function resta(){
-      inicializar();
-      operacion="-"
-  }
-  function div(){
-      inicializar();
-      operacion="/"
-  }
-  function resto(){
-      inicializar();
-      operacion="%"
-  }
-  function pot(){
-      inicializar();
-      operacion="x_y"
-  }
-
-  function sumatoria(){
-    let num = document.getElementById("n1");
+};
+// ** Operaciones unitarias ** //
+const cuadrado = () => {
+    validar();
+    if (esNum === true) {
+        let num = document.getElementById("pantalla");
+        num.value *= num.value;
+        rellenar_info();
+    }
+}
+const mod = () => { // calcula el módulo de un número
+    validar();
+    if (esNum === true) {
+        let num = document.getElementById("pantalla");
+        if (num.value < 0) {
+            num.value = -num.value;
+        } else {
+            num.value = num.value;
+        }
+        rellenar_info();
+    }
+}
+const fact = () => { // calcula el factorial de un número
+    validar();
+    if (esNum === true) {
+        let num = document.getElementById("pantalla");
+        let info = document.getElementById("info");
+        if (num.value < 0) {
+            num.value = "Error.";
+            info.innerHTML = "Introduce un número positivo";
+        } else if (num.value === "0") {
+            num.value = 1;
+            rellenar_info();
+        } else {
+            for (let i = num.value - 1; i > 0; i--) {
+                num.value *= i;
+            }
+            rellenar_info();
+        }
+    }
+}
+// ** Operaciones binarias ** //
+let num, acu;
+let op;
+const init = () => { // inicializa las variables globales
+    num = document.getElementById("pantalla");
+    acu = num.value;
+    op = "";
+}
+const add = () => { // función suma
+    validar();
+    if (esNum === true) {
+        init();
+        op = "+";
+    }
+}
+const sub = () => { // función resta
+    validar();
+    if (esNum === true) {
+        init();
+        op = "-";
+    }
+}
+const mul = () => { // función multiplicación
+    validar();
+    if (esNum === true) {
+        init();
+        op = "*";
+    }
+}
+const div = () => { // función división
+    validar();
+    if (esNum === true) {
+        init();
+        op = "/";
+    }
+}
+const rem = () => { // función resto de una división
+    validar();
+    if (esNum === true) {
+        init();
+        op = "%";
+    }
+}
+const pow = () => { // función potencia
+    validar();
+    if (esNum === true) {
+        init();
+        op = "x_y";
+    }
+}
+const eq = () => { // calcula la operación elegida
+    switch (op) {
+        case "+":
+            num.value = +acu + +num.value; // operador unitario para evitar la concatenación
+            rellenar_info();
+            break;
+        case "-":
+            num.value = acu - num.value;
+            rellenar_info();
+            break;
+        case "*":
+            num.value = acu * num.value;
+            rellenar_info();
+            break;
+        case "/":
+            num.value = acu / num.value;
+            rellenar_info();
+            break;
+        case "%":
+            num.value = acu % num.value;
+            rellenar_info();
+            break;
+        case "x_y":
+            num.value = Math.pow(acu, num.value);
+            rellenar_info();
+            break;
+        default:
+            document.getElementById("info").innerHTML = "Elige una operación";
+    }
+}
+// ** Operaciones en formato CSV ** //
+const sumatorio = () => { // función sumatorio
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -122,10 +177,9 @@ function fact(){
         num.value = "Error.";
         info.innerHTML = "Introduce dos o más cifras, separadas por comas.";
     }
-  }
-
-  const ordenar = () => { // función ordenar con un método de ordenación ascendente
-    let num = document.getElementById("n1");
+}
+const ordenar = () => { // función ordenar con un método de ordenación ascendente
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -143,7 +197,7 @@ function fact(){
     }
 }
 const revertir = () => { // función revertir
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -161,7 +215,7 @@ const revertir = () => { // función revertir
     }
 }
 const quitar = () => {
-    let num = document.getElementById("n1");
+    let num = document.getElementById("pantalla");
     let lista = num.value.split(","); // convierte el string en array
     let info = document.getElementById("info");
     if (lista.length > 1 && lista !== undefined) { // para verificar que el array tiene más de un elemento
@@ -181,117 +235,40 @@ const quitar = () => {
     }
 }
 
-  function eq(){
-    
-    switch (operacion) {
-        case "*":
-            numero.value =acumula*numero.value; 
-            rellenar_info();
-            break;
-            case "+":
-            numero.value = +acumula + +numero.value;
-            rellenar_info();
-            break;
-        case "-":
-            numero.value = acumula - numero.value;
-            rellenar_info();
-            break;
-        case "/":
-            numero.value = acumula / numero.value;
-            rellenar_info();
-            break;
-        case "%":
-            numero.value = acumula % numero.value;
-            rellenar_info();
-            break;
-        case "x_y":
-            numero.value = Math.pow(acumula, numero.value);
-            rellenar_info();
-            break;
-        default:
-            document.getElementById("info").innerHTML = "Elige una operación";
-    }
+
+
+
+  </script>
+
    
-  }
- 
-    </script>
-  </head>
-  <body>
-    Número:
-    <input type="text" id="n1" 
-           onclick="vaciar()">
-  
-  
+  <link rel="stylesheet" href="estilo.css">
+</head>
 
- 
+<body>
+  <div id="caja">
+    <h1>Calculadora web</h1>
+    <input type="text" id="pantalla" onclick="vaciar()">
+    <h2 id="info" class="grande" title="Info sobre el número">Info sobre el número</h2>
+    <h3 class="separador">Operaciones unitarias</h3>
+    <button id="cuadrado" onclick="cuadrado()">x<sup>2</sup></button>
+    <button id="modulo" onclick="mod()">|x|</button>
+    <button id="factorial" onclick="fact()">n!</button>
+    <h3 class="separador">Operaciones binarias</h3>
+    <button id="suma" onclick="add()">+</button>
+    <button id="resta" onclick="sub()">-</button>
+    <button id="multiplicacion" onclick="mul()">*</button>
+    <button id="division" onclick="div()">/</button>
+    <button id="resto" onclick="rem()">%</button>
+    <button id="potencia" onclick="pow()">x<sup>y</sup></button>
+    <button id="igual" onclick="eq()">=</button>
+    <h3 class="separador">Operaciones en formato CSV (n1, n2, n3, n4...)</h3>
+    <button id="sumatorio" onclick="sumatorio()">Σx</button>
+    <button id="ordenar" onclick="ordenar()">Ordenar</button>
+    <button id="revertir" onclick="revertir()">Revertir</button>
+    <button id="quitar" onclick="quitar()">Quitar</button>
+  </div>
+  <footer>&copy; David A. Pérez - Ejercicio P2P obligatorio | Módulo 3 - <em>Introduccióna ES6+, let, VS Code, DOM,
+      boolean, if, bucles</em> - Desarrollo frontend 10ª ed.</footer>
+</body>
 
-    <h2 id="info" class="grande" title="info sobre el número">info sobre el número</h2>
-    <br>
-    <div>
-
-        <h2> operaciones uitarias</h2>
-        <button onclick="cuadrado()">
-                    x<sup>2</sup> 
-          </button>
-        
-          <button id="modulo" onclick="mod()">
-                        |x| 
-          </button>
-
-          <button id="factorial" onclick="fact()">
-            x! 
-         </button>
-    </div>
-
-
-    <div>
-
-        <h2> operaciones binarias</h2>
-        
-        <button id="multiplicacion" onclick="mul()">
-                    * 
-          </button>
-        
-          <button id="suma" onclick="suma()">
-                        +
-          </button>
-
-          <button id="resta" onclick="resta()">
-            -
-          </button>
-          <button id="division" onclick="div()">
-            /
-           </button>
-           <button id="resto" onclick="resto()">
-            %
-           </button>
-           <button id="potencia" onclick="pot()">
-            x<sup>y</sup>
-           </button>
-          <button id="igual" onclick="eq()">
-            = 
-         </button>
-    </div>
-
-
-    <div>
-
-        <h2>Operaciones en formato CSV (n1, n2, n3, n4...)</h2>
-
-        <button id="sumatoria" onclick="sumatoria()">
-            Σx 
-         </button>
-         <button id="ordenar" onclick="ordenar()">
-            ordenar 
-         </button>
-         <button id="revertir" onclick="revertir()">
-            revertir 
-         </button>
-         <button id="quitar" onclick="quitar()">
-            quitar 
-         </button>
-
-   </body>
-  </html>
-  
-  
+</html>
